@@ -1,0 +1,86 @@
+.root {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-base: #F2F5F9;
+    -fx-background-color: #F2F5F9;
+    -fx-text-fill: #2F334A;
+}
+.app-shell { -fx-background-color: #F2F5F9; }
+.sidebar { -fx-background-color: #2F334A; -fx-padding: 22px 14px; }
+.brand { -fx-text-fill: #FFFFFF; -fx-font-size: 21px; -fx-font-weight: 800; }
+.brand-sub { -fx-text-fill: #9BA1AE; -fx-font-size: 11px; }
+.nav-button { -fx-background-color: transparent; -fx-text-fill: #EEEEEE; -fx-alignment: CENTER_LEFT; -fx-padding: 12px 14px; -fx-background-radius: 9px; -fx-cursor: hand; -fx-font-weight: 600; }
+.nav-button:hover { -fx-background-color: #393E54; }
+.nav-button.active { -fx-background-color: #2F9CCA; -fx-text-fill: #FFFFFF; }
+.logout-button { -fx-background-color: #44485E; -fx-text-fill: #FFFFFF; -fx-alignment: CENTER_LEFT; -fx-padding: 12px 14px; -fx-background-radius: 9px; -fx-cursor: hand; }
+.topbar { -fx-background-color: #FFFFFF; -fx-border-color: #D2D5DB; -fx-border-width: 0 0 1 0; -fx-padding: 15px 22px; }
+.page-title { -fx-text-fill: #2F334A; -fx-font-size: 25px; -fx-font-weight: 800; }
+.page-subtitle { -fx-text-fill: #66748C; }
+.card { -fx-background-color: #FFFFFF; -fx-background-radius: 14px; -fx-border-color: #D2D5DB; -fx-border-radius: 14px; -fx-padding: 18px; }
+.metric-card { -fx-background-color: #FFFFFF; -fx-background-radius: 14px; -fx-border-color: #D2D5DB; -fx-border-radius: 14px; -fx-padding: 18px; }
+.metric-value { -fx-text-fill: #2F334A; -fx-font-size: 28px; -fx-font-weight: 800; }
+.metric-label { -fx-text-fill: #66748C; -fx-font-size: 12px; -fx-font-weight: 600; }
+.section-title { -fx-text-fill: #2F334A; -fx-font-size: 17px; -fx-font-weight: 800; }
+.primary-button { -fx-background-color: #2F9CCA; -fx-text-fill: #FFFFFF; -fx-background-radius: 9px; -fx-padding: 10px 16px; -fx-font-weight: 700; -fx-cursor: hand; }
+.primary-button:hover { -fx-background-color: #237295; }
+.secondary-button { -fx-background-color: #384152; -fx-text-fill: #FFFFFF; -fx-background-radius: 9px; -fx-padding: 10px 16px; -fx-font-weight: 700; -fx-cursor: hand; }
+.secondary-button:hover { -fx-background-color: #2F334A; }
+.outline-button { -fx-background-color: #FFFFFF; -fx-text-fill: #384152; -fx-border-color: #9BA1AE; -fx-border-radius: 9px; -fx-background-radius: 9px; -fx-padding: 9px 15px; -fx-cursor: hand; }
+.danger-button { -fx-background-color: #B84B5B; -fx-text-fill: #FFFFFF; -fx-background-radius: 9px; -fx-padding: 10px 16px; -fx-font-weight: 700; }
+.text-field, .password-field, .combo-box, .date-picker, .text-area { -fx-background-color: #FFFFFF; -fx-border-color: #D2D5DB; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 9px 10px; }
+.text-field:focused, .password-field:focused, .combo-box:focused, .date-picker:focused, .text-area:focused { -fx-border-color: #2F9CCA; -fx-border-width: 1.5px; }
+.label-muted { -fx-text-fill: #66748C; }
+.form-label { -fx-text-fill: #384152; -fx-font-weight: 600; }
+.table-view { -fx-background-color: #FFFFFF; -fx-border-color: #D2D5DB; -fx-border-radius: 10px; -fx-background-radius: 10px; }
+.table-view .column-header-background { -fx-background-color: #F9FAFC; -fx-background-radius: 10px 10px 0 0; }
+.table-view .column-header, .table-view .filler { -fx-background-color: transparent; -fx-border-color: transparent transparent #D2D5DB transparent; }
+.table-view .column-header .label { -fx-text-fill: #384152; -fx-font-weight: 800; }
+.table-row-cell { -fx-border-color: transparent transparent #F0F1F4 transparent; }
+.table-row-cell:hover { -fx-background-color: #F3F4F6; }
+.table-row-cell:selected { -fx-background-color: #E5F5FC; -fx-text-fill: #2F334A; }
+.status-pill { -fx-background-color: #E5F5FC; -fx-text-fill: #237295; -fx-padding: 5px 9px; -fx-background-radius: 20px; -fx-font-weight: 700; }
+.role-pill { -fx-background-color: #F3F4F6; -fx-text-fill: #384152; -fx-padding: 5px 9px; -fx-background-radius: 20px; -fx-font-weight: 700; }
+.error-text { -fx-text-fill: #B84B5B; -fx-font-weight: 600; }
+.login-bg { -fx-background-color: linear-gradient(to bottom right, #2F334A, #384152); }
+.login-card { -fx-background-color: #FFFFFF; -fx-background-radius: 18px; -fx-padding: 34px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 24, 0.18, 0, 8); }
+.login-title { -fx-text-fill: #2F334A; -fx-font-size: 27px; -fx-font-weight: 800; }
+.login-accent { -fx-text-fill: #2F9CCA; -fx-font-weight: 800; }
+.scroll-pane { -fx-background-color: transparent; }
+.scroll-pane > .viewport { -fx-background-color: transparent; }
+.separator .line { -fx-border-color: #D2D5DB; }
+
+/* Enhanced tables, dialogs and dashboard */
+.table-view { -fx-table-cell-border-color: transparent; -fx-padding: 2px; }
+.table-view .virtual-flow .scroll-bar:vertical, .table-view .virtual-flow .scroll-bar:horizontal { -fx-background-color: transparent; }
+.table-view .column-header { -fx-size: 42px; }
+.table-row-cell { -fx-cell-size: 42px; }
+.table-row-cell:selected .text { -fx-fill: #2F334A; }
+.table-row-cell:filled:hover { -fx-background-color: #F3F4F6; }
+.table-row-cell:filled:selected { -fx-background-color: #E5F5FC; }
+.table-row-cell:filled:selected:hover { -fx-background-color: #D8F0FA; }
+.form-mode { -fx-background-color: #E5F5FC; -fx-text-fill: #237295; -fx-padding: 5px 10px; -fx-background-radius: 20px; -fx-font-weight: 700; }
+.selection-summary { -fx-background-color: #F9FAFC; -fx-border-color: #D2D5DB; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 9px 12px; -fx-text-fill: #384152; }
+.patient-avatar { -fx-background-color: #E5F5FC; -fx-background-radius: 50px; -fx-min-width: 64px; -fx-min-height: 64px; -fx-max-width: 64px; -fx-max-height: 64px; -fx-alignment: center; }
+.patient-avatar .ikonli-font-icon { -fx-icon-color: #2F9CCA; }
+.dialog-title { -fx-text-fill: #2F334A; -fx-font-size: 20px; -fx-font-weight: 800; }
+.dialog-code { -fx-text-fill: #2F9CCA; -fx-font-weight: 700; }
+.detail-value { -fx-text-fill: #384152; }
+.details-area { -fx-control-inner-background: #F9FAFC; }
+.invoice-result { -fx-background-color: #FFFFFF; -fx-font-family: "Consolas"; -fx-font-size: 13px; }
+.chart { -fx-background-color: #FFFFFF; }
+.chart-plot-background { -fx-background-color: #FFFFFF; }
+.chart-vertical-grid-lines, .chart-horizontal-grid-lines { -fx-stroke: #EEF0F4; }
+.chart-title { -fx-text-fill: #384152; -fx-font-weight: 800; }
+.axis-label { -fx-text-fill: #66748C; }
+.dashboard-table { -fx-pref-height: 300px; }
+.nav-button .ikonli-font-icon, .logout-button .ikonli-font-icon { -fx-icon-color: #FFFFFF; }
+.nav-button { -fx-graphic-text-gap: 12px; }
+.logout-button { -fx-graphic-text-gap: 12px; }
+.nav-button.active .ikonli-font-icon { -fx-icon-color: #FFFFFF; }
+.sidebar { -fx-padding: 18px 14px; }
+
+.status-active { -fx-text-fill: #237295; -fx-font-weight: 800; }
+.status-inactive { -fx-text-fill: #B84B5B; -fx-font-weight: 800; }
+.treatment-dialog .dialog-pane { -fx-background-color: #F2F5F9; }
+.treatment-dialog .header-panel { -fx-background-color: #FFFFFF; }
+.treatment-dialog .header-panel .label { -fx-text-fill: #2F334A; -fx-font-size: 18px; -fx-font-weight: 800; }

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+            http://maven.apache.org/POM/4.0.0
+            https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Project Information -->
+    <groupId>lk.sunrise</groupId>
+    <artifactId>sunrise-dental-clinic</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+
+        <!-- Java -->
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JavaFX -->
+        <javafx.version>21.0.9</javafx.version>
+
+        <!-- Lombok -->
+        <lombok.version>1.18.38</lombok.version>
+
+        <!-- UI Libraries -->
+        <controlsfx.version>11.2.2</controlsfx.version>
+        <ikonli.version>12.3.1</ikonli.version>
+
+        <!-- Plugins -->
+        <maven.compiler.version>3.14.0</maven.compiler.version>
+        <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+
+    </properties>
+
+
+    <!-- ========================================================= -->
+    <!-- DEPENDENCIES -->
+    <!-- ========================================================= -->
+
+    <dependencies>
+
+        <!-- ========================= -->
+        <!-- JavaFX -->
+        <!-- ========================= -->
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+
+        <!-- ========================= -->
+        <!-- ControlsFX -->
+        <!-- ========================= -->
+
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>${controlsfx.version}</version>
+        </dependency>
+
+
+        <!-- ========================= -->
+        <!-- Ikonli -->
+        <!-- ========================= -->
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome5-pack</artifactId>
+            <version>${ikonli.version}</version>
+        </dependency>
+
+
+        <!-- ========================= -->
+        <!-- MySQL -->
+        <!-- ========================= -->
+
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.4.0</version>
+        </dependency>
+
+
+        <!-- ========================= -->
+        <!-- BCrypt -->
+        <!-- ========================= -->
+
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+
+        <!-- ========================= -->
+        <!-- OpenHTMLToPDF -->
+        <!-- ========================= -->
+
+        <dependency>
+            <groupId>com.openhtmltopdf</groupId>
+            <artifactId>openhtmltopdf-pdfbox</artifactId>
+            <version>1.0.10</version>
+        </dependency>
+
+
+        <!-- ========================= -->
+        <!-- Lombok -->
+        <!-- ========================= -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+
+    <!-- ========================================================= -->
+    <!-- BUILD -->
+    <!-- ========================================================= -->
+
+    <build>
+
+        <plugins>
+
+            <!-- ========================= -->
+            <!-- Maven Compiler -->
+            <!-- ========================= -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+
+                <configuration>
+
+                    <release>21</release>
+
+                    <encoding>UTF-8</encoding>
+
+                    <annotationProcessorPaths>
+
+                        <!-- Lombok Annotation Processor -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+
+                    </annotationProcessorPaths>
+
+                </configuration>
+            </plugin>
+
+
+            <!-- ========================= -->
+            <!-- JavaFX Maven Plugin -->
+            <!-- ========================= -->
+
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx.maven.plugin.version}</version>
+
+                <configuration>
+
+                    <mainClass>
+                        lk.sunrise.dentalclinic.ui.DentalClinicApplication
+                    </mainClass>
+
+                </configuration>
+
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
