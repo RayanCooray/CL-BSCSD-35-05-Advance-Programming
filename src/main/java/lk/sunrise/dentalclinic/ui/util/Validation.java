@@ -6,7 +6,8 @@ import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
 public final class Validation {
-    private Validation() {}
+    private Validation() {
+    }
 
     private static final Pattern NAME = Pattern.compile("^[A-Za-z][A-Za-z .'-]{2,149}$");
     private static final Pattern PHONE = Pattern.compile("^(?:\\+94|0)(?:7\\d{8}|\\d{9})$");

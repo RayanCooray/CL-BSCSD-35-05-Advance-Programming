@@ -11,38 +11,53 @@ import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import lk.sunrise.dentalclinic.entity.Patient;
 
 public final class Ui {
-    private Ui() {}
+    private Ui() {
+    }
 
     public static VBox page(String title, String subtitle) {
         VBox box = new VBox(18);
         box.setPadding(new Insets(24));
-        Label t = new Label(title); t.getStyleClass().add("page-title");
-        Label s = new Label(subtitle); s.getStyleClass().add("page-subtitle");
+        Label t = new Label(title);
+        t.getStyleClass().add("page-title");
+        Label s = new Label(subtitle);
+        s.getStyleClass().add("page-subtitle");
         box.getChildren().addAll(t, s);
         return box;
     }
 
     public static VBox card(String title) {
-        VBox box = new VBox(14); box.getStyleClass().add("card");
-        Label label = new Label(title); label.getStyleClass().add("section-title");
+        VBox box = new VBox(14);
+        box.getStyleClass().add("card");
+        Label label = new Label(title);
+        label.getStyleClass().add("section-title");
         box.getChildren().add(label);
         return box;
     }
 
     public static Label fieldLabel(String text) {
-        Label l = new Label(text); l.getStyleClass().add("form-label"); return l;
+        Label l = new Label(text);
+        l.getStyleClass().add("form-label");
+        return l;
     }
 
     public static TextField textField(String prompt) {
-        TextField f = new TextField(); f.setPromptText(prompt); f.getStyleClass().add("text-field"); return f;
+        TextField f = new TextField();
+        f.setPromptText(prompt);
+        f.getStyleClass().add("text-field");
+        return f;
     }
 
     public static PasswordField passwordField(String prompt) {
-        PasswordField f = new PasswordField(); f.setPromptText(prompt); f.getStyleClass().add("password-field"); return f;
+        PasswordField f = new PasswordField();
+        f.setPromptText(prompt);
+        f.getStyleClass().add("password-field");
+        return f;
     }
 
     public static Button button(String text, String css) {
-        Button b = new Button(text); b.getStyleClass().add(css); return b;
+        Button b = new Button(text);
+        b.getStyleClass().add(css);
+        return b;
     }
 
     public static Button iconButton(String tooltip, FontAwesomeSolid icon, String css) {
@@ -61,9 +76,23 @@ public final class Ui {
         return i;
     }
 
-    public static HBox row(Node... nodes) { HBox h = new HBox(10, nodes); h.setFillHeight(true); return h; }
-    public static GridPane grid() { GridPane g = new GridPane(); g.setHgap(12); g.setVgap(10); return g; }
-    public static void grow(Node n) { VBox.setVgrow(n, Priority.ALWAYS); HBox.setHgrow(n, Priority.ALWAYS); }
+    public static HBox row(Node... nodes) {
+        HBox h = new HBox(10, nodes);
+        h.setFillHeight(true);
+        return h;
+    }
+
+    public static GridPane grid() {
+        GridPane g = new GridPane();
+        g.setHgap(12);
+        g.setVgap(10);
+        return g;
+    }
+
+    public static void grow(Node n) {
+        VBox.setVgrow(n, Priority.ALWAYS);
+        HBox.setHgrow(n, Priority.ALWAYS);
+    }
 
     public static void notify(Node owner, String title, String text, boolean error) {
         Notifications.create().title(title).text(text).owner(owner)
@@ -72,7 +101,8 @@ public final class Ui {
 
     public static void error(Node owner, Exception ex) {
         Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle("Operation failed"); a.setHeaderText(null);
+        a.setTitle("Operation failed");
+        a.setHeaderText(null);
         a.setContentText(ex.getMessage() == null ? "Something went wrong." : ex.getMessage());
         if (owner != null && owner.getScene() != null) a.initOwner(owner.getScene().getWindow());
         a.showAndWait();
@@ -107,7 +137,8 @@ public final class Ui {
         header.getChildren().addAll(avatar, heading);
 
         GridPane grid = new GridPane();
-        grid.setHgap(18); grid.setVgap(11);
+        grid.setHgap(18);
+        grid.setVgap(11);
         addDetail(grid, 0, "Date of birth", String.valueOf(patient.getDateOfBirth()));
         addDetail(grid, 2, "Gender", String.valueOf(patient.getGender()));
         addDetail(grid, 0, "Contact", patient.getContactNumber());
@@ -117,7 +148,9 @@ public final class Ui {
 
         Label historyTitle = fieldLabel("Medical history");
         TextArea history = new TextArea(patient.getMedicalHistory() == null ? "" : patient.getMedicalHistory());
-        history.setEditable(false); history.setWrapText(true); history.setPrefRowCount(5);
+        history.setEditable(false);
+        history.setWrapText(true);
+        history.setPrefRowCount(5);
         history.getStyleClass().add("details-area");
 
         content.getChildren().addAll(header, new Separator(), grid, historyTitle, history);
