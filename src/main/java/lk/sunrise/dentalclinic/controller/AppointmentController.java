@@ -24,6 +24,9 @@ public class AppointmentController {
     public List<Appointment> daily(LocalDate from,LocalDate to,Integer dentistId)throws Exception {
         return model.daily(from,to,dentistId);
     }
+    public List<Appointment> all()throws Exception {
+        return model.findAll();
+    }
     public Appointment getById(int id)throws Exception {
         return model.find(id);
     }

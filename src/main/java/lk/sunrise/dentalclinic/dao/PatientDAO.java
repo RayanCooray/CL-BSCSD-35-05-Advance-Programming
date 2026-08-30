@@ -10,6 +10,8 @@ public interface PatientDAO {
     List<Patient> search(String keyword) throws Exception;
     boolean existsByContact(String contact) throws Exception;
     boolean existsByContactExcept(String contact, int patientId) throws Exception;
+    boolean existsByEmail(String email) throws Exception;
+    boolean existsByEmailExcept(String email, int patientId) throws Exception;
     String generateNextCode() throws Exception;
     boolean save(Patient patient) throws Exception;
     boolean update(Patient patient) throws Exception;

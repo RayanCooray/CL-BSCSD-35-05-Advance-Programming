@@ -42,6 +42,13 @@ public class AppointmentView {
     private final ComboBox<AppointmentStatus> status =
             new ComboBox<>();
 
+    private final Label patientError = validationLabel();
+    private final Label dentistError = validationLabel();
+    private final Label treatmentError = validationLabel();
+    private final Label dateError = validationLabel();
+    private final Label startError = validationLabel();
+    private final Label endError = validationLabel();
+
 
     private final Button create =
             Ui.button(
@@ -170,6 +177,7 @@ public class AppointmentView {
                 0,
                 "Patient",
                 patient,
+                patientError,
                 0
         );
 
@@ -178,6 +186,7 @@ public class AppointmentView {
                 2,
                 "Dentist",
                 dentist,
+                dentistError,
                 0
         );
 
@@ -186,6 +195,7 @@ public class AppointmentView {
                 0,
                 "Treatment",
                 treatment,
+                treatmentError,
                 1
         );
 
@@ -194,6 +204,7 @@ public class AppointmentView {
                 2,
                 "Date",
                 date,
+                dateError,
                 1
         );
 
@@ -202,6 +213,7 @@ public class AppointmentView {
                 0,
                 "Start",
                 start,
+                startError,
                 2
         );
 
@@ -210,6 +222,7 @@ public class AppointmentView {
                 2,
                 "End",
                 end,
+                endError,
                 2
         );
 
@@ -242,6 +255,15 @@ public class AppointmentView {
                 Pos.CENTER_RIGHT
         );
 
+        actions.setPadding(
+                new Insets(
+                        8,
+                        0,
+                        0,
+                        0
+                )
+        );
+
         formGrid.add(
                 actions,
                 0,
@@ -258,9 +280,6 @@ public class AppointmentView {
                 Ui.card(
                         "Appointment details"
                 );
-
-        form.setPrefHeight(380);
-        form.setMinHeight(380);
 
         form.setSpacing(12);
 
@@ -305,22 +324,11 @@ public class AppointmentView {
         );
 
 
-        Label dateLabel =
-                Ui.fieldLabel(
-                        "Appointments for"
-                );
-
-        date.setPrefHeight(46);
-
-        date.setPrefWidth(220);
-
         refresh.setPrefHeight(46);
 
         HBox filterBar =
                 new HBox(
                         10,
-                        dateLabel,
-                        date,
                         refresh
                 );
 
@@ -412,6 +420,16 @@ public class AppointmentView {
                             }
                         }
                 );
+
+        table.setRowFactory(tv -> {
+            TableRow<Appointment> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty()) {
+                    controller.loadSelected(row.getItem());
+                }
+            });
+            return row;
+        });
 
         Ui.grow(table);
 
@@ -520,7 +538,6 @@ public class AppointmentView {
         date.setMaxWidth(
                 Double.MAX_VALUE
         );
-
 
         start.setPrefHeight(48);
         end.setPrefHeight(48);
@@ -867,6 +884,18 @@ public class AppointmentView {
             javafx.scene.Node node,
             int row
     ) {
+        add(grid, column, label, node, null, row);
+    }
+
+
+    private void add(
+            GridPane grid,
+            int column,
+            String label,
+            javafx.scene.Node node,
+            Label error,
+            int row
+    ) {
 
         Label fieldLabel =
                 Ui.fieldLabel(label);
@@ -879,14 +908,22 @@ public class AppointmentView {
                 row
         );
 
+        javafx.scene.Node fieldNode = node;
+
+        if (error != null) {
+            VBox fieldBox = new VBox(4, node, error);
+            fieldBox.setFillWidth(true);
+            fieldNode = fieldBox;
+        }
+
         grid.add(
-                node,
+                fieldNode,
                 column + 1,
                 row
         );
 
         GridPane.setHgrow(
-                node,
+                fieldNode,
                 Priority.ALWAYS
         );
 
@@ -896,6 +933,21 @@ public class AppointmentView {
                     Double.MAX_VALUE
             );
         }
+    }
+
+
+    private Label validationLabel() {
+
+        Label label = new Label();
+
+        label.getStyleClass()
+                .add("field-error-text");
+
+        label.setWrapText(true);
+        label.setVisible(false);
+        label.setManaged(false);
+
+        return label;
     }
 
 
@@ -1086,5 +1138,29 @@ public class AppointmentView {
     public AppointmentViewController controller() {
 
         return controller;
+    }
+
+    public Label patientError() {
+        return patientError;
+    }
+
+    public Label dentistError() {
+        return dentistError;
+    }
+
+    public Label treatmentError() {
+        return treatmentError;
+    }
+
+    public Label dateError() {
+        return dateError;
+    }
+
+    public Label startError() {
+        return startError;
+    }
+
+    public Label endError() {
+        return endError;
     }
 }

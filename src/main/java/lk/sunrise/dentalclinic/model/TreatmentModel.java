@@ -13,9 +13,19 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class TreatmentModel {
-    private final TreatmentDAO dao = DAOFactory.treatmentDAO();
-    private final PatientDAO patientDAO = DAOFactory.patientDAO();
-    private final TreatmentRecordDAO recordDAO = DAOFactory.treatmentRecordDAO();
+    private final TreatmentDAO dao;
+    private final PatientDAO patientDAO;
+    private final TreatmentRecordDAO recordDAO;
+
+    public TreatmentModel() {
+        this(DAOFactory.treatmentDAO(), DAOFactory.patientDAO(), DAOFactory.treatmentRecordDAO());
+    }
+
+    TreatmentModel(TreatmentDAO dao, PatientDAO patientDAO, TreatmentRecordDAO recordDAO) {
+        this.dao = dao;
+        this.patientDAO = patientDAO;
+        this.recordDAO = recordDAO;
+    }
 
     public List<Treatment> findAll() throws Exception {
         return dao.findAll();

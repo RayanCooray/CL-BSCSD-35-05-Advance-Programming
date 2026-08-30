@@ -29,6 +29,9 @@
 .danger-button { -fx-background-color: #B84B5B; -fx-text-fill: #FFFFFF; -fx-background-radius: 9px; -fx-padding: 10px 16px; -fx-font-weight: 700; }
 .text-field, .password-field, .combo-box, .date-picker, .text-area { -fx-background-color: #FFFFFF; -fx-border-color: #D2D5DB; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 9px 10px; }
 .text-field:focused, .password-field:focused, .combo-box:focused, .date-picker:focused, .text-area:focused { -fx-border-color: #2F9CCA; -fx-border-width: 1.5px; }
+.input-error { -fx-border-color: #B84B5B; -fx-border-width: 1.5px; }
+.input-error:focused { -fx-border-color: #B84B5B; -fx-border-width: 1.5px; }
+.field-error-text { -fx-text-fill: #B84B5B; -fx-font-size: 12px; -fx-font-weight: 600; }
 .label-muted { -fx-text-fill: #66748C; }
 .form-label { -fx-text-fill: #384152; -fx-font-weight: 600; }
 .table-view { -fx-background-color: #FFFFFF; -fx-border-color: #D2D5DB; -fx-border-radius: 10px; -fx-background-radius: 10px; }

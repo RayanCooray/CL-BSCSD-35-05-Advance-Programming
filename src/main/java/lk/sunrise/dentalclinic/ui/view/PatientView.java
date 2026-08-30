@@ -23,6 +23,11 @@ public class PatientView {
     private final DatePicker dob = new DatePicker();
     private final ComboBox<Gender> gender = new ComboBox<>();
     private final TextArea history = new TextArea();
+    private final Label nameError = validationLabel();
+    private final Label dobError = validationLabel();
+    private final Label genderError = validationLabel();
+    private final Label contactError = validationLabel();
+    private final Label emailError = validationLabel();
     private final Button save = Ui.button("Register patient", "primary-button");
     private final Button update = Ui.button("Update selected", "secondary-button");
     private final Button clear = Ui.button("Clear", "outline-button");
@@ -47,11 +52,11 @@ public class PatientView {
         GridPane g = Ui.grid();
         g.setHgap(18);
         g.setVgap(14);
-        addField(g, 0, 0, "Full name", name);
-        addField(g, 2, 0, "Date of birth", dob);
-        addField(g, 0, 1, "Gender", gender);
-        addField(g, 2, 1, "Contact", contact);
-        addField(g, 0, 2, "Email", email);
+        addField(g, 0, 0, "Full name", name, nameError);
+        addField(g, 2, 0, "Date of birth", dob, dobError);
+        addField(g, 0, 1, "Gender", gender, genderError);
+        addField(g, 2, 1, "Contact", contact, contactError);
+        addField(g, 0, 2, "Email", email, emailError);
         addField(g, 2, 2, "Address", address);
         history.setPromptText("Medical history");
         history.setPrefRowCount(4);
@@ -101,10 +106,29 @@ public class PatientView {
     }
 
     private void addField(GridPane g, int c, int r, String label, javafx.scene.Node node) {
+        addField(g, c, r, label, node, null);
+    }
+
+    private void addField(GridPane g, int c, int r, String label, javafx.scene.Node node, Label error) {
         g.add(Ui.fieldLabel(label), c, r);
-        g.add(node, c + 1, r);
-        GridPane.setHgrow(node, Priority.ALWAYS);
+        javafx.scene.Node fieldNode = node;
+        if (error != null) {
+            VBox fieldBox = new VBox(4, node, error);
+            fieldNode = fieldBox;
+            fieldBox.setFillWidth(true);
+        }
+        g.add(fieldNode, c + 1, r);
+        GridPane.setHgrow(fieldNode, Priority.ALWAYS);
         if (node instanceof Region region) region.setMaxWidth(Double.MAX_VALUE);
+    }
+
+    private Label validationLabel() {
+        Label label = new Label();
+        label.getStyleClass().add("field-error-text");
+        label.setWrapText(true);
+        label.setVisible(false);
+        label.setManaged(false);
+        return label;
     }
 
     private <T> TableColumn<Patient, T> col(String text, String property) {
@@ -171,5 +195,25 @@ public class PatientView {
 
     public Label mode() {
         return mode;
+    }
+
+    public Label nameError() {
+        return nameError;
+    }
+
+    public Label dobError() {
+        return dobError;
+    }
+
+    public Label genderError() {
+        return genderError;
+    }
+
+    public Label contactError() {
+        return contactError;
+    }
+
+    public Label emailError() {
+        return emailError;
     }
 }

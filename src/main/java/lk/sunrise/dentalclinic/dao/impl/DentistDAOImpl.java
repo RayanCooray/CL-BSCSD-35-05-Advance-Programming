@@ -60,6 +60,33 @@ public class DentistDAOImpl extends BaseDAOImpl implements DentistDAO {
     }
 
     @Override
+    public boolean existsByEmail(String email) throws Exception {
+        if (email == null || email.isBlank()) return false;
+        String sql = "SELECT COUNT(*) FROM dentists WHERE LOWER(email) = LOWER(?)";
+        try (Connection c = connection(); PreparedStatement p = c.prepareStatement(sql)) {
+            p.setString(1, email.trim());
+            try (ResultSet r = p.executeQuery()) {
+                r.next();
+                return r.getInt(1) > 0;
+            }
+        }
+    }
+
+    @Override
+    public boolean existsByEmailExcept(String email, int dentistId) throws Exception {
+        if (email == null || email.isBlank()) return false;
+        String sql = "SELECT COUNT(*) FROM dentists WHERE LOWER(email) = LOWER(?) AND dentist_id <> ?";
+        try (Connection c = connection(); PreparedStatement p = c.prepareStatement(sql)) {
+            p.setString(1, email.trim());
+            p.setInt(2, dentistId);
+            try (ResultSet r = p.executeQuery()) {
+                r.next();
+                return r.getInt(1) > 0;
+            }
+        }
+    }
+
+    @Override
     public List<Dentist> findAll() throws Exception {
         return searchInternal("SELECT * FROM dentists ORDER BY full_name", null);
     }

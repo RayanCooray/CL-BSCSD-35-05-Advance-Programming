@@ -2,6 +2,8 @@ package lk.sunrise.dentalclinic.ui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import lk.sunrise.dentalclinic.controller.AppointmentController;
@@ -82,6 +84,7 @@ public class AppointmentViewController {
                                 view.patientSearch(),
                                 newValue
                         );
+                        refreshValidationMarkers();
                     });
 
 
@@ -97,11 +100,14 @@ public class AppointmentViewController {
                                 view.patient(),
                                 newValue
                         );
+                        refreshValidationMarkers();
                     });
 
 
             installSearch(view.patient());
             installSearch(view.patientSearch());
+
+            bindRealtimeValidation();
 
 
             view.create().setOnAction(e -> create());
@@ -504,20 +510,10 @@ public class AppointmentViewController {
 
         try {
 
-            LocalDate date =
-                    view.date().getValue() == null
-                            ? LocalDate.now()
-                            : view.date().getValue();
-
-
             view.table()
                     .getItems()
                     .setAll(
-                            controller.daily(
-                                    date,
-                                    date,
-                                    null
-                            )
+                            controller.all()
                     );
 
         } catch (Exception e) {
@@ -592,6 +588,8 @@ public class AppointmentViewController {
         view.create().setText(
                 "Book new"
         );
+
+        refreshValidationMarkers();
     }
 
 
@@ -701,6 +699,8 @@ public class AppointmentViewController {
             );
 
         } catch (Exception e) {
+
+            applySubmitError(e);
 
             Ui.error(
                     view.root(),
@@ -812,6 +812,8 @@ public class AppointmentViewController {
 
         } catch (Exception e) {
 
+            applySubmitError(e);
+
             Ui.error(
                     view.root(),
                     e
@@ -821,6 +823,8 @@ public class AppointmentViewController {
 
 
     private void validate() {
+
+        refreshValidationMarkers();
 
         /*
          * Patient is already resolved in create/update.
@@ -853,6 +857,13 @@ public class AppointmentViewController {
 
             throw new IllegalArgumentException(
                     "Appointment date is required."
+            );
+        }
+
+        if (view.date().getValue().isBefore(LocalDate.now())) {
+
+            throw new IllegalArgumentException(
+                    "Appointment date cannot be in the past."
             );
         }
 
@@ -1009,5 +1020,219 @@ public class AppointmentViewController {
         view.table()
                 .getSelectionModel()
                 .clearSelection();
+
+        clearValidationMarkers();
+    }
+
+
+    private void bindRealtimeValidation() {
+
+        view.patient().valueProperty().addListener((obs, old, value) -> refreshValidationMarkers());
+        view.dentist().valueProperty().addListener((obs, old, value) -> refreshValidationMarkers());
+        view.treatment().valueProperty().addListener((obs, old, value) -> refreshValidationMarkers());
+        view.date().valueProperty().addListener((obs, old, value) -> refreshValidationMarkers());
+        view.start().textProperty().addListener((obs, old, value) -> refreshValidationMarkers());
+        view.end().textProperty().addListener((obs, old, value) -> refreshValidationMarkers());
+    }
+
+
+    private void refreshValidationMarkers() {
+
+        setValidationMessage(
+                view.patient(),
+                view.patientError(),
+                view.patient().getValue() == null
+                        ? "Select a patient."
+                        : null
+        );
+
+        setValidationMessage(
+                view.dentist(),
+                view.dentistError(),
+                view.dentist().getValue() == null
+                        ? "Select a dentist."
+                        : null
+        );
+
+        setValidationMessage(
+                view.treatment(),
+                view.treatmentError(),
+                view.treatment().getValue() == null
+                        ? "Select a treatment."
+                        : null
+        );
+
+        validateDateMarker();
+        validateTimeMarkers();
+    }
+
+
+    private void validateDateMarker() {
+
+        if (view.date().getValue() == null) {
+
+            setValidationMessage(
+                    view.date(),
+                    view.dateError(),
+                    "Appointment date is required."
+            );
+
+            return;
+        }
+
+        if (view.date().getValue().isBefore(LocalDate.now())) {
+
+            setValidationMessage(
+                    view.date(),
+                    view.dateError(),
+                    "Appointment date cannot be in the past."
+            );
+
+            return;
+        }
+
+        setValidationMessage(
+                view.date(),
+                view.dateError(),
+                null
+        );
+    }
+
+
+    private void validateTimeMarkers() {
+
+        boolean startValid = markText(
+                () -> Validation.time(
+                        view.start().getText(),
+                        "Start time"
+                ),
+                view.start(),
+                view.startError()
+        );
+
+        boolean endValid = markText(
+                () -> Validation.time(
+                        view.end().getText(),
+                        "End time"
+                ),
+                view.end(),
+                view.endError()
+        );
+
+        if (!startValid || !endValid) {
+            return;
+        }
+
+        LocalTime startTime =
+                LocalTime.parse(
+                        view.start()
+                                .getText()
+                                .trim()
+                );
+
+        LocalTime endTime =
+                LocalTime.parse(
+                        view.end()
+                                .getText()
+                                .trim()
+                );
+
+        if (!endTime.isAfter(startTime)) {
+
+            setValidationMessage(
+                    view.start(),
+                    view.startError(),
+                    "Start time must be before end time."
+            );
+
+            setValidationMessage(
+                    view.end(),
+                    view.endError(),
+                    "End time must be after start time."
+            );
+        }
+    }
+
+
+    private boolean markText(Runnable validator, Control control, Label error) {
+
+        try {
+
+            validator.run();
+            setValidationMessage(control, error, null);
+            return true;
+
+        } catch (IllegalArgumentException ex) {
+
+            setValidationMessage(control, error, ex.getMessage());
+            return false;
+        }
+    }
+
+
+    private void setValidationMessage(Control control, Label error, String message) {
+
+        boolean invalid =
+                message != null
+                        && !message.isBlank();
+
+        Validation.markInvalid(control, invalid);
+
+        error.setText(
+                invalid
+                        ? message
+                        : ""
+        );
+
+        error.setVisible(invalid);
+        error.setManaged(invalid);
+    }
+
+
+    private void clearValidationMarkers() {
+
+        setValidationMessage(view.patient(), view.patientError(), null);
+        setValidationMessage(view.dentist(), view.dentistError(), null);
+        setValidationMessage(view.treatment(), view.treatmentError(), null);
+        setValidationMessage(view.date(), view.dateError(), null);
+        setValidationMessage(view.start(), view.startError(), null);
+        setValidationMessage(view.end(), view.endError(), null);
+    }
+
+
+    private void applySubmitError(Exception e) {
+
+        String message =
+                e.getMessage();
+
+        if (message == null) {
+            return;
+        }
+
+        String lower =
+                message.toLowerCase();
+
+        if (lower.contains("booked")
+                || lower.contains("conflict")
+                || lower.contains("available slot")) {
+
+            setValidationMessage(
+                    view.dentist(),
+                    view.dentistError(),
+                    message
+            );
+
+            setValidationMessage(
+                    view.start(),
+                    view.startError(),
+                    message
+            );
+
+            setValidationMessage(
+                    view.end(),
+                    view.endError(),
+                    message
+            );
+        }
     }
 }

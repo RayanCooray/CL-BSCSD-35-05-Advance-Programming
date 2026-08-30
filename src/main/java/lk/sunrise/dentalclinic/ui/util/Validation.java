@@ -3,6 +3,7 @@ package lk.sunrise.dentalclinic.ui.util;
 import javafx.scene.control.Control;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public final class Validation {
@@ -37,6 +38,25 @@ public final class Validation {
     public static void email(String value) {
         if (value != null && !value.isBlank() && !EMAIL.matcher(value.trim()).matches()) {
             throw new IllegalArgumentException("Enter a valid email address.");
+        }
+    }
+
+    public static void dateOfBirth(LocalDate value) {
+        if (value == null) {
+            throw new IllegalArgumentException("Date of birth is required.");
+        }
+        if (!value.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Date of birth must be before today.");
+        }
+    }
+
+    public static void markInvalid(Control control, boolean invalid) {
+        if (invalid) {
+            if (!control.getStyleClass().contains("input-error")) {
+                control.getStyleClass().add("input-error");
+            }
+        } else {
+            control.getStyleClass().remove("input-error");
         }
     }
 

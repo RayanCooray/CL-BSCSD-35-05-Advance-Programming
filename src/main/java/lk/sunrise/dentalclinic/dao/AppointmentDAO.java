@@ -15,6 +15,8 @@ public interface AppointmentDAO {
 
     List<Appointment> findByDateRange(LocalDate from, LocalDate to, Integer dentistId) throws Exception;
 
+    List<Appointment> findAll() throws Exception;
+
     Optional<Appointment> findById(int id) throws Exception;
 
     Optional<Appointment> findByAppointmentNo(String no) throws Exception;

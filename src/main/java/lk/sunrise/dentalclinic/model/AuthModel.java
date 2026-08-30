@@ -7,7 +7,15 @@ import lk.sunrise.dentalclinic.factory.DAOFactory;
 import lk.sunrise.dentalclinic.util.*;
 
 public class AuthModel {
-    private final UserDAO dao = DAOFactory.userDAO();
+    private final UserDAO dao;
+
+    public AuthModel() {
+        this(DAOFactory.userDAO());
+    }
+
+    AuthModel(UserDAO dao) {
+        this.dao = dao;
+    }
 
     public LoginResponseDTO authenticate(LoginRequestDTO x) throws Exception {
         if (x == null || x.getUsername() == null || x.getUsername().isBlank() || x.getPassword() == null || x.getPassword().isBlank())

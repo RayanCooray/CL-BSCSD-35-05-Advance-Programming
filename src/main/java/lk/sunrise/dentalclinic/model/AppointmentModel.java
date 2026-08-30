@@ -9,10 +9,21 @@ import java.time.*;
 import java.util.*;
 
 public class AppointmentModel {
-    private final AppointmentDAO appointmentDAO = DAOFactory.appointmentDAO();
-    private final PatientDAO patientDAO = DAOFactory.patientDAO();
-    private final DentistDAO dentistDAO = DAOFactory.dentistDAO();
-    private final TreatmentDAO treatmentDAO = DAOFactory.treatmentDAO();
+    private final AppointmentDAO appointmentDAO;
+    private final PatientDAO patientDAO;
+    private final DentistDAO dentistDAO;
+    private final TreatmentDAO treatmentDAO;
+
+    public AppointmentModel() {
+        this(DAOFactory.appointmentDAO(), DAOFactory.patientDAO(), DAOFactory.dentistDAO(), DAOFactory.treatmentDAO());
+    }
+
+    AppointmentModel(AppointmentDAO appointmentDAO, PatientDAO patientDAO, DentistDAO dentistDAO, TreatmentDAO treatmentDAO) {
+        this.appointmentDAO = appointmentDAO;
+        this.patientDAO = patientDAO;
+        this.dentistDAO = dentistDAO;
+        this.treatmentDAO = treatmentDAO;
+    }
 
     public List<Dentist> getAvailableDentists() throws Exception {
         return dentistDAO.findAvailable();
@@ -78,6 +89,10 @@ public class AppointmentModel {
 
     public List<Appointment> daily(LocalDate from, LocalDate to, Integer dentistId) throws Exception {
         return appointmentDAO.findByDateRange(from, to, dentistId);
+    }
+
+    public List<Appointment> findAll() throws Exception {
+        return appointmentDAO.findAll();
     }
 
     public Appointment find(int id) throws Exception {

@@ -19,6 +19,7 @@ public class DentistView {
     private final TableView<Dentist> table = new TableView<>();
     private final TextField name = Ui.textField("Full name"), slmc = Ui.textField("SLMC number"), special = Ui.textField("Specialization"), contact = Ui.textField("Contact"), email = Ui.textField("Email"), fee = Ui.textField("Consultation fee");
     private final TextField start = Ui.textField("09:00"), end = Ui.textField("17:00");
+    private final Label nameError = validationLabel(), slmcError = validationLabel(), specialError = validationLabel(), contactError = validationLabel(), emailError = validationLabel(), feeError = validationLabel(), startError = validationLabel(), endError = validationLabel();
     private final CheckBox available = new CheckBox("Available");
     private final Button save = Ui.button("Add dentist", "primary-button"), update = Ui.button("Update selected", "secondary-button");
     private final DentistViewController controller;
@@ -31,14 +32,14 @@ public class DentistView {
         Label s = new Label("Maintain dentist profiles, consultation fees and working hours.");
         s.getStyleClass().add("page-subtitle");
         GridPane g = Ui.grid();
-        field(g, 0, "Name", name, 0);
-        field(g, 2, "SLMC", slmc, 0);
-        field(g, 0, "Specialization", special, 1);
-        field(g, 2, "Contact", contact, 1);
-        field(g, 0, "Email", email, 2);
-        field(g, 2, "Fee", fee, 2);
-        field(g, 0, "Start", start, 3);
-        field(g, 2, "End", end, 3);
+        field(g, 0, "Name", name, nameError, 0);
+        field(g, 2, "SLMC", slmc, slmcError, 0);
+        field(g, 0, "Specialization", special, specialError, 1);
+        field(g, 2, "Contact", contact, contactError, 1);
+        field(g, 0, "Email", email, emailError, 2);
+        field(g, 2, "Fee", fee, feeError, 2);
+        field(g, 0, "Start", start, startError, 3);
+        field(g, 2, "End", end, endError, 3);
         g.add(available, 1, 4);
         g.add(save, 2, 4);
         g.add(update, 3, 4);
@@ -56,9 +57,22 @@ public class DentistView {
         controller.initialize();
     }
 
-    private void field(GridPane g, int c, String l, javafx.scene.Node n, int r) {
+    private void field(GridPane g, int c, String l, javafx.scene.Node n, Label error, int r) {
         g.add(Ui.fieldLabel(l), c, r);
-        g.add(n, c + 1, r);
+        VBox fieldBox = new VBox(4, n, error);
+        fieldBox.setFillWidth(true);
+        g.add(fieldBox, c + 1, r);
+        GridPane.setHgrow(fieldBox, Priority.ALWAYS);
+        if (n instanceof Region region) region.setMaxWidth(Double.MAX_VALUE);
+    }
+
+    private Label validationLabel() {
+        Label label = new Label();
+        label.getStyleClass().add("field-error-text");
+        label.setWrapText(true);
+        label.setVisible(false);
+        label.setManaged(false);
+        return label;
     }
 
     private <T> TableColumn<Dentist, T> col(String x, String p) {
@@ -123,4 +137,13 @@ public class DentistView {
     public TableView<Dentist> table() {
         return table;
     }
+
+    public Label nameError() { return nameError; }
+    public Label slmcError() { return slmcError; }
+    public Label specialError() { return specialError; }
+    public Label contactError() { return contactError; }
+    public Label emailError() { return emailError; }
+    public Label feeError() { return feeError; }
+    public Label startError() { return startError; }
+    public Label endError() { return endError; }
 }

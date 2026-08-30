@@ -12,13 +12,24 @@ import java.util.NoSuchElementException;
 
 public class DentistModel {
 
-    private final DentistDAO dao = DAOFactory.dentistDAO();
+    private final DentistDAO dao;
+
+    public DentistModel() {
+        this(DAOFactory.dentistDAO());
+    }
+
+    DentistModel(DentistDAO dao) {
+        this.dao = dao;
+    }
 
     public DentistDTO register(DentistDTO x) throws Exception {
         validate(x);
 
         if (dao.findBySlmcNumber(x.getSlmcNumber()).isPresent()) {
             throw new IllegalArgumentException("SLMC number already exists.");
+        }
+        if (dao.existsByEmail(x.getEmail())) {
+            throw new IllegalArgumentException("Dentist email already exists.");
         }
 
         Dentist d = new Dentist();
@@ -54,6 +65,9 @@ public class DentistModel {
                 throw new IllegalArgumentException("SLMC number already exists.");
             }
         });
+        if (dao.existsByEmailExcept(x.getEmail(), existing.getDentistId())) {
+            throw new IllegalArgumentException("Another dentist already uses this email.");
+        }
 
         existing.setFullName(x.getFullName().trim());
         existing.setSlmcNumber(x.getSlmcNumber().trim());

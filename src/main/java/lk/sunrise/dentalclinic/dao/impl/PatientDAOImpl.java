@@ -67,6 +67,31 @@ public class PatientDAOImpl extends BaseDAOImpl implements PatientDAO {
             }
         }
     }
+
+    @Override
+    public boolean existsByEmail(String x)throws Exception {
+        if(x==null || x.isBlank())return false;
+        try(Connection c=connection();PreparedStatement p=c.prepareStatement("SELECT COUNT(*) FROM patients WHERE LOWER(email)=LOWER(?)")) {
+            p.setString(1,x.trim());
+            try(ResultSet r=p.executeQuery()) {
+                r.next();
+                return r.getInt(1)>0;
+            }
+        }
+    }
+
+    @Override
+    public boolean existsByEmailExcept(String x, int patientId)throws Exception {
+        if(x==null || x.isBlank())return false;
+        try(Connection c=connection();PreparedStatement p=c.prepareStatement("SELECT COUNT(*) FROM patients WHERE LOWER(email)=LOWER(?) AND patient_id<>?")) {
+            p.setString(1,x.trim());
+            p.setInt(2,patientId);
+            try(ResultSet r=p.executeQuery()) {
+                r.next();
+                return r.getInt(1)>0;
+            }
+        }
+    }
     public String generateNextCode()throws Exception {
         try(Connection c=connection();Statement s=c.createStatement();ResultSet r=s.executeQuery("SELECT COALESCE(MAX(patient_id),0)+1 FROM patients")) {
             r.next();

@@ -8,7 +8,15 @@ import lk.sunrise.dentalclinic.factory.DAOFactory;
 import java.util.*;
 
 public class ReportModel {
-    private final ReportDAO dao = DAOFactory.reportDAO();
+    private final ReportDAO dao;
+
+    public ReportModel() {
+        this(DAOFactory.reportDAO());
+    }
+
+    ReportModel(ReportDAO dao) {
+        this.dao = dao;
+    }
 
     public List<Appointment> daily(ReportRequestDTO r) throws Exception {
         return dao.dailyAppointments(r);

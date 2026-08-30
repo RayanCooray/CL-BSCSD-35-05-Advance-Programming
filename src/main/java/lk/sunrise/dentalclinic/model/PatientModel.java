@@ -8,13 +8,23 @@ import lk.sunrise.dentalclinic.factory.DAOFactory;
 import java.util.*;
 
 public class PatientModel {
-    private final PatientDAO dao = DAOFactory.patientDAO();
+    private final PatientDAO dao;
+
+    public PatientModel() {
+        this(DAOFactory.patientDAO());
+    }
+
+    PatientModel(PatientDAO dao) {
+        this.dao = dao;
+    }
 
     public PatientDTO register(PatientDTO x) throws Exception {
         if (x == null || x.getFullName() == null || x.getFullName().isBlank())
             throw new IllegalArgumentException("Patient name is required.");
         if (dao.existsByContact(x.getContactNumber()))
             throw new IllegalArgumentException("Patient already registered.");
+        if (dao.existsByEmail(x.getEmail()))
+            throw new IllegalArgumentException("Patient email already exists.");
         Patient p = new Patient();
         p.setPatientCode(dao.generateNextCode());
         p.setFullName(x.getFullName());
@@ -34,6 +44,8 @@ public class PatientModel {
             throw new IllegalArgumentException("Patient name is required.");
         if (dao.existsByContactExcept(x.getContactNumber(), x.getPatientId()))
             throw new IllegalArgumentException("Another patient already uses this contact number.");
+        if (dao.existsByEmailExcept(x.getEmail(), x.getPatientId()))
+            throw new IllegalArgumentException("Another patient already uses this email.");
         Patient p = dao.findById(x.getPatientId()).orElseThrow(() -> new NoSuchElementException("Patient record not found."));
         p.setFullName(x.getFullName());
         p.setDateOfBirth(x.getDateOfBirth());

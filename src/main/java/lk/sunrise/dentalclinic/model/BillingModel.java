@@ -10,11 +10,23 @@ import java.time.*;
 import java.util.*;
 
 public class BillingModel {
-    private final AppointmentDAO appointmentDAO = DAOFactory.appointmentDAO();
-    private final DentistDAO dentistDAO = DAOFactory.dentistDAO();
-    private final TreatmentRecordDAO recordDAO = DAOFactory.treatmentRecordDAO();
-    private final InvoiceDAO invoiceDAO = DAOFactory.invoiceDAO();
-    private final PaymentDAO paymentDAO = DAOFactory.paymentDAO();
+    private final AppointmentDAO appointmentDAO;
+    private final DentistDAO dentistDAO;
+    private final TreatmentRecordDAO recordDAO;
+    private final InvoiceDAO invoiceDAO;
+    private final PaymentDAO paymentDAO;
+
+    public BillingModel() {
+        this(DAOFactory.appointmentDAO(), DAOFactory.dentistDAO(), DAOFactory.treatmentRecordDAO(), DAOFactory.invoiceDAO(), DAOFactory.paymentDAO());
+    }
+
+    BillingModel(AppointmentDAO appointmentDAO, DentistDAO dentistDAO, TreatmentRecordDAO recordDAO, InvoiceDAO invoiceDAO, PaymentDAO paymentDAO) {
+        this.appointmentDAO = appointmentDAO;
+        this.dentistDAO = dentistDAO;
+        this.recordDAO = recordDAO;
+        this.invoiceDAO = invoiceDAO;
+        this.paymentDAO = paymentDAO;
+    }
 
     public InvoiceDTO generateInvoice(int appointmentId, BigDecimal taxRate, BigDecimal discount) throws Exception {
         Invoice existing = invoiceDAO.findByAppointmentId(appointmentId).orElse(null);
